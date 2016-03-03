@@ -1,0 +1,21 @@
+{
+    "name":"livechatroom",
+    "description":"my attempt to create an online chat room",
+    "dependencies":{
+        "express":"latest",
+        "express-session":"latest",
+        "cookie-parser":"latest",
+        "body-parser":"latest",
+        "kerberos":"latest",
+        "mongodb":"1.4.4",
+        "monk":"latest",
+        "morgan":"latest",
+        "jade":"latest",
+        "path":"latest",
+        "serve-favicon":"latest",
+        "crypto":"latest",
+        "http":"latest",
+        "socket.io":"latest"
+    },
+    "author":"kylehu"
+}

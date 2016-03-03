@@ -1,0 +1,67 @@
+extends layout
+
+block scripts
+    script(src='/socket.io/socket.io.js')
+   // script(src='/javascripts/chat.js')
+
+block css
+
+block content
+    p Welcome!
+    //form for sending messages
+    div(style='overflow-x:auto')
+        table(id='messages')
+    form(action='')
+        input(id='messagebox',autocomplete='off')
+        button Send
+    script. 
+        var socket = io('http://192.168.1.103:9001/chat'); //always change to current ip address
+        var usr = "#{username}";
+        //socket.io submit
+        $('form').submit(function() {
+            if($('#messagebox').val() != '') {
+                //$('#messagebox').val(escape($('#messagebox').val()));
+                var message = {username:usr, message:$('#messagebox').val(), date:new Date()};
+                socket.emit('chat message', message);
+                var table = createTable(message);
+                //$(table).find(".content").eq(0).text($(table).find(".content").eq(0).html());
+                $('#messages').append(table);
+                $('#messagebox').val('');
+            }
+            return false;
+        });
+        
+        socket.on('chat message', function(msg){
+            $('#messages').append(createTable(msg));
+        });
+        
+        socket.on('conn',function(){
+            var message = {username:undefined, message:"" + usr + " has connected.", date:new Date()};
+            $('#messages').append(createTable(message));
+            socket.emit('usercon',message);
+        });
+        
+        socket.on('discon',function(user) {
+            var message = {username:undefined,message:'' + usr + "has disconnected.", date:new Date()};
+            socket.emit('userdiscon', message);
+        });
+        
+        socket.on('usercon', function(message){
+            $('#messages').append(createTable(message));
+        });
+        
+        socket.on('userdiscon',function(message){
+            $('#messages').append(createTable(message));
+        });
+        
+        function createTable(message) {
+            //var content = unescape(message.message);
+            var html = '<tr><td class="' + (message.username ? 'message' : 'message,server') + '"><table class="message-table">';
+            html += '<tr>';
+            html += '<td class="user">' + (message.username ? message.username: '') + '</td>';
+            html += '<td class="content">' + message.message + '</td>';
+            html += '<td class="date">' + message.date + '</td>';
+            html += '</tr>';
+            html += '</table></td></tr>';
+            return html;
+        }

@@ -1,0 +1,16 @@
+extends layout
+
+block scripts
+
+block css
+
+block content
+    form#login(action='login',method='post')
+        input#inputUserName(type='text',placeholder='Enter username',name='username',autocomplete='off')
+        br
+        input#inputPassword(type='password',placeholder='Enter password',name='password')
+        br
+        button#submit(type='submit') Log In
+        button#submit(type='submit',formaction='/newaccount') Create New Account
+    if invalid 
+        p(style='color:red') Incorrect username or password, please try again.

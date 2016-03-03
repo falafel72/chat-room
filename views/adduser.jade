@@ -1,0 +1,20 @@
+extends layout
+
+block scripts
+    script(src='/javascripts/adduser.js')
+
+
+block css
+
+block content
+    form#adduser(action='/createacc',method='post')
+        input#inputUserName(type='text',placeholder='Enter username',name='username',autocomplete='off')
+        br
+        input#inputPassword(type='password',placeholder='Enter password',name='password')
+        br
+        input#repeatPassword(type='password',placeholder='Repeat password',name='repeatPassword')
+        br
+        button#submit(type='submit',disabled='true') Create Account
+        button#toLogin(type='submit',formaction='/',method='post') Back to login
+    if invalid
+        p(style='color:red') That username has already been taken!
